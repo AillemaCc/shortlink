@@ -24,9 +24,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         UserDO userDO = baseMapper.selectOne(queryWrapper);
         UserRespDTO result = new UserRespDTO();
         if(userDO != null){
-            throw new ClientException(UserErrorCodeEnum.USER_NULL);
-//            BeanUtils.copyProperties(userDO, result);       // 此方法需要判空才可以，否则会报错
-//            return result;
+            BeanUtils.copyProperties(userDO, result);       // 此方法需要判空才可以，否则会报错
+            return result;
         } else {
             return null;
         }
