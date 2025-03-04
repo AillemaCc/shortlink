@@ -61,14 +61,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         }
         RLock lock = redissonClient.getLock("LOCK_USER_REGISTER_KEY"+requestParam.getUsername());
         try{
+            int insert = baseMapper.insert(BeanUtil.toBean(requestParam, UserDO.class));
             if(lock.tryLock()){
-                int insert = baseMapper.insert(BeanUtil.toBean(requestParam, UserDO.class));
                 if (insert < 1) {
                     throw new ClientException(USER_SAVE_ERROR);
                 }
                 userRegisterCachePenetrationBloomFilter.add(requestParam.getUsername());
             }
-            throw new ClientException(USER_NAME_EXIST);
+//            throw new ClientException(USER_NAME_EXIST); 谁写的代码。。
         }
         finally {
             lock.unlock();
