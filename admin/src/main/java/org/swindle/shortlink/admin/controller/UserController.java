@@ -2,13 +2,11 @@ package org.swindle.shortlink.admin.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.swindle.shortlink.admin.common.convention.result.Result;
 import org.swindle.shortlink.admin.common.convention.result.Results;
 import org.swindle.shortlink.admin.common.enums.UserErrorCodeEnum;
+import org.swindle.shortlink.admin.dto.req.UserRegisterReqDTO;
 import org.swindle.shortlink.admin.dto.resp.UserActualRespDTO;
 import org.swindle.shortlink.admin.dto.resp.UserRespDTO;
 import org.swindle.shortlink.admin.service.UserService;
@@ -45,6 +43,27 @@ public class UserController {
     @GetMapping("/api/shortlink/admin/v1/actual/user/{username}")
     public Result<UserActualRespDTO> getActualUserByUsername(@PathVariable("username") String username) {
         return Results.success(BeanUtil.toBean(userService.getUserByUsername(username), UserActualRespDTO.class));
+    }
+
+    /**
+     * 注册时，判断用户名是否存在。
+     * @param username
+     * @return 存在返回true，不存在返回false
+     */
+    @GetMapping("/api/shortlink/admin/v1/user/has-username")
+    public Result<Boolean> hasUsername(@RequestParam("username") String username) {
+        return Results.success(userService.hasUsername(username));
+    }
+
+    /**
+     * 注册用户
+     * @param requestParam
+     * @return
+     */
+    @PostMapping("/api/shortlink/admin/v1/user")
+    public Result<Void> register(@RequestBody UserRegisterReqDTO requestParam) {
+        userService.Register(requestParam);
+        return Results.success();
     }
 
 }
