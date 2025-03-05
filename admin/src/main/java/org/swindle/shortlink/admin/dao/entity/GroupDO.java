@@ -1,7 +1,11 @@
 package org.swindle.shortlink.admin.dao.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.swindle.shortlink.admin.common.database.BaseDO;
 
 import java.util.Date;
 
@@ -10,7 +14,10 @@ import java.util.Date;
  */
 @Data
 @TableName("t_group")
-public class GroupDO {
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class GroupDO extends BaseDO {
     /**
      * id
      */
@@ -36,19 +43,5 @@ public class GroupDO {
      */
     private Integer sortOrder;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
-
-    /**
-     * 删除标识 0：未删除 1：已删除
-     */
-    private Integer delFlag;
 }
 
