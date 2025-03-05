@@ -76,6 +76,20 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
     }
 
     /**
+     * @param gid 短链接gid
+     */
+    @Override
+    public void delete(String gid) {
+        LambdaUpdateWrapper<GroupDO> updateWrapper = Wrappers.lambdaUpdate(GroupDO.class)
+                .eq(GroupDO::getUsername, UserContext.getUsername())
+                .eq(GroupDO::getGid, gid)
+                .eq(GroupDO::getDelFlag, 0);
+        GroupDO groupDO = new GroupDO();
+        groupDO.setDelFlag(1);
+        baseMapper.update(groupDO,updateWrapper);
+    }
+
+    /**
      *查询该gid是否被占用，因为gid全局唯一
      * @param gid
      * @return gid被占用，返回false，未被占用，返回ture
