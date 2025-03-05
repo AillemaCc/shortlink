@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.swindle.shortlink.admin.common.convention.result.Result;
 import org.swindle.shortlink.admin.common.convention.result.Results;
 import org.swindle.shortlink.admin.dto.req.ShortLinkGroupSaveReqDTO;
+import org.swindle.shortlink.admin.dto.req.ShortLinkGroupSortReqDTO;
 import org.swindle.shortlink.admin.dto.req.ShortLinkGroupUpdateReqDTO;
 import org.swindle.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
 import org.swindle.shortlink.admin.service.GroupService;
@@ -49,9 +50,20 @@ public class GroupController {
         return Results.success();
     }
 
+    /**
+     * 删除短链接分组
+     * @param gid
+     * @return
+     */
     @DeleteMapping("/api/shortlink/admin/v1/group")
     public Result<Void> deleteGroup(@RequestParam String gid){
         groupService.delete(gid);
+        return Results.success();
+    }
+
+    @PostMapping("/api/shortlink/admin/v1/group/sort")
+    public Result<Void> sortGroup(@RequestBody List<ShortLinkGroupSortReqDTO> requestParam) {
+        groupService.sortGroup(requestParam);
         return Results.success();
     }
 }

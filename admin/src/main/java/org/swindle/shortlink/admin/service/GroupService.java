@@ -2,6 +2,7 @@ package org.swindle.shortlink.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.swindle.shortlink.admin.dao.entity.GroupDO;
+import org.swindle.shortlink.admin.dto.req.ShortLinkGroupSortReqDTO;
 import org.swindle.shortlink.admin.dto.req.ShortLinkGroupUpdateReqDTO;
 import org.swindle.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
 
@@ -34,4 +35,10 @@ public interface GroupService extends IService<GroupDO> {
      * @param gid 短链接gid
      */
     void delete(String gid);
+
+    /**
+     * 短链接分组排序
+     * @param requestParam
+     */
+    void sortGroup(List<ShortLinkGroupSortReqDTO> requestParam);
 }
