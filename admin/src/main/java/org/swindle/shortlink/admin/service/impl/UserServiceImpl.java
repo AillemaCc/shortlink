@@ -107,7 +107,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         if(userDO == null){
             throw new ClientException("用户不存在");
         }
-        if(Boolean.TRUE.equals(stringRedisTemplate.hasKey("login" + requestParam.getUsername()))){
+        if(Boolean.TRUE.equals(stringRedisTemplate.hasKey("login_" + requestParam.getUsername()))){
             throw new ClientException("用户已登录");
         }
         /**
