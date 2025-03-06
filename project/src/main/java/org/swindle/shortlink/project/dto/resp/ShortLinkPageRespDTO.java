@@ -1,6 +1,7 @@
 package org.swindle.shortlink.project.dto.resp;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -53,9 +54,27 @@ public class ShortLinkPageRespDTO {
     private int validDateType;
 
     /**
+     * 启用标识 0：启用 1：未启用
+     */
+    private Integer enableStatus;
+
+    /**
      * 有效期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date validDate;
+
+    /**
+     * 创建时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
+
+    /**
+     * 描述
+     */
+    private String describe;
+
 
 
     /**
