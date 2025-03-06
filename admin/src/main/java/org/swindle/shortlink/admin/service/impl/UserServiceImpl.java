@@ -13,6 +13,7 @@ import org.redisson.api.RBloomFilter;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.swindle.shortlink.admin.common.convention.exception.ClientException;
@@ -24,6 +25,7 @@ import org.swindle.shortlink.admin.dto.req.UserRegisterReqDTO;
 import org.swindle.shortlink.admin.dto.req.UserUpdateReqDTO;
 import org.swindle.shortlink.admin.dto.resp.UserLoginRespDTO;
 import org.swindle.shortlink.admin.dto.resp.UserRespDTO;
+import org.swindle.shortlink.admin.service.GroupService;
 import org.swindle.shortlink.admin.service.UserService;
 
 import java.util.HashMap;
@@ -31,8 +33,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import static org.swindle.shortlink.admin.common.enums.UserErrorCodeEnum.USER_NAME_EXIST;
-import static org.swindle.shortlink.admin.common.enums.UserErrorCodeEnum.USER_SAVE_ERROR;
+import static org.swindle.shortlink.admin.common.enums.UserErrorCodeEnum.*;
 
 /**
  * 用户接口实现层
@@ -40,9 +41,12 @@ import static org.swindle.shortlink.admin.common.enums.UserErrorCodeEnum.USER_SA
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements UserService {
+
     private final RBloomFilter<String> userRegisterCachePenetrationBloomFilter;
     private final RedissonClient redissonClient;
     private final StringRedisTemplate stringRedisTemplate;
+    private final GroupService groupService;
+
     @Override
     public UserRespDTO getUserByUsername(String username) {
         LambdaQueryWrapper<UserDO> queryWrapper = Wrappers.lambdaQuery(UserDO.class)
@@ -75,18 +79,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         }
         RLock lock = redissonClient.getLock("LOCK_USER_REGISTER_KEY"+requestParam.getUsername());
         try{
-            int insert = baseMapper.insert(BeanUtil.toBean(requestParam, UserDO.class));
             if(lock.tryLock()){
-                if (insert < 1) {
-                    throw new ClientException(USER_SAVE_ERROR);
+                try{
+                    int insert = baseMapper.insert(BeanUtil.toBean(requestParam, UserDO.class));
+                    if (insert < 1) {
+                        throw new ClientException(USER_SAVE_ERROR);
+                    }
+                }catch (DuplicateKeyException e){
+                    throw new ClientException(USER_EXIST);
                 }
                 userRegisterCachePenetrationBloomFilter.add(requestParam.getUsername());
+                groupService.saveGroup("默认分组");
+                return;
             }
-//            throw new ClientException(USER_NAME_EXIST); 谁写的代码。。
+            throw new ClientException(USER_NAME_EXIST);
         }
         finally {
             lock.unlock();
         }
+
     }
 
     @Override

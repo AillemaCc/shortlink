@@ -34,6 +34,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
 
     ShortLinkRemoteService shortLinkService = new ShortLinkRemoteService(){};
     /**
+     * 新建短链接分组
      * @param groupName 短链接分组名
      */
     @Override
