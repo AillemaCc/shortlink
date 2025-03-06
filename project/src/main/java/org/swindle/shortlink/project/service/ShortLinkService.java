@@ -6,7 +6,10 @@ import org.swindle.shortlink.project.dao.entity.ShortLinkDO;
 import org.swindle.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import org.swindle.shortlink.project.dto.req.ShortLinkPageReqDTO;
 import org.swindle.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
+import org.swindle.shortlink.project.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import org.swindle.shortlink.project.dto.resp.ShortLinkPageRespDTO;
+
+import java.util.List;
 
 /**
  * 短链接接口层
@@ -25,4 +28,11 @@ public interface ShortLinkService extends IService<ShortLinkDO> {
      * @return 分页查询短链接分页返回
      */
     IPage<ShortLinkPageRespDTO> pageShortLink(ShortLinkPageReqDTO requestParam);
+
+    /**
+     * 查询短链接分组内数量
+     * @param requestParam
+     * @return
+     */
+    List<ShortLinkGroupCountQueryRespDTO> listGroupShortLinkCount(List<String> requestParam);
 }

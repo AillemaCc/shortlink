@@ -8,9 +8,11 @@ import org.swindle.shortlink.admin.common.convention.result.Result;
 import org.swindle.shortlink.admin.remote.dto.req.ShortLinkCreateReqDTO;
 import org.swindle.shortlink.admin.remote.dto.req.ShortLinkPageReqDTO;
 import org.swindle.shortlink.admin.remote.dto.resp.ShortLinkCreateRespDTO;
+import org.swindle.shortlink.admin.remote.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import org.swindle.shortlink.admin.remote.dto.resp.ShortLinkPageRespDTO;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +41,19 @@ public interface ShortLinkRemoteService {
         reqMap.put("current", requestParam.getCurrent());
         reqMap.put("size", requestParam.getSize());
         String requestPageStr = HttpUtil.get("http://127.0.0.1:8001/api/shortlink/v1/page", reqMap);
+        return JSON.parseObject(requestPageStr, new TypeReference<>() {
+        });
+    }
+
+    /**
+     * 查询短链接分组内数量
+     * @param requestParam
+     * @return
+     */
+    default Result<List<ShortLinkGroupCountQueryRespDTO>> listGroupShortLinkCount(List<String> requestParam){
+        Map<String,Object> reqMap = new HashMap<>();
+        reqMap.put("requestParam", requestParam);
+        String requestPageStr = HttpUtil.get("http://127.0.0.1:8001/api/shortlink/v1/count", reqMap);
         return JSON.parseObject(requestPageStr, new TypeReference<>() {
         });
     }
