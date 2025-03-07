@@ -1,11 +1,10 @@
 package org.swindle.shortlink.admin.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.swindle.shortlink.admin.common.convention.result.Result;
+import org.swindle.shortlink.admin.common.convention.result.Results;
+import org.swindle.shortlink.admin.dto.req.ShortLinkUpdateReqDTO;
 import org.swindle.shortlink.admin.remote.ShortLinkRemoteService;
 import org.swindle.shortlink.admin.remote.dto.req.ShortLinkCreateReqDTO;
 import org.swindle.shortlink.admin.remote.dto.req.ShortLinkPageReqDTO;
@@ -39,5 +38,16 @@ public class ShortLinkController {
     public Result<IPage<ShortLinkPageRespDTO>> pageShortLink(ShortLinkPageReqDTO requestParam){
 
        return shortLinkService.pageShortLink(requestParam);
+    }
+
+    /**
+     * 修改短链接信息
+     * @param requestParam
+     * @return
+     */
+    @PostMapping("/api/shortlink/admin/v1/update")
+    public Result<Void> updateShortLink(@RequestBody ShortLinkUpdateReqDTO requestParam){
+        shortLinkService.updateShortLink(requestParam);
+        return Results.success();
     }
 }

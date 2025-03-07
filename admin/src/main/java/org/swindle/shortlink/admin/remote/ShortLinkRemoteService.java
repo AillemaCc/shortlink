@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.swindle.shortlink.admin.common.convention.result.Result;
+import org.swindle.shortlink.admin.dto.req.ShortLinkUpdateReqDTO;
 import org.swindle.shortlink.admin.remote.dto.req.ShortLinkCreateReqDTO;
 import org.swindle.shortlink.admin.remote.dto.req.ShortLinkPageReqDTO;
 import org.swindle.shortlink.admin.remote.dto.resp.ShortLinkCreateRespDTO;
@@ -58,5 +59,11 @@ public interface ShortLinkRemoteService {
         });
     }
 
-
+    /**
+     * 修改短链接信息
+     * @param requestParam 修改短链接信息请求参数
+     */
+    default void updateShortLink(ShortLinkUpdateReqDTO requestParam){
+        String resultBodyStr = HttpUtil.post("http://127.0.0.1:8001/api/shortlink/v1/update", JSON.toJSONString(requestParam));
+    };
 }

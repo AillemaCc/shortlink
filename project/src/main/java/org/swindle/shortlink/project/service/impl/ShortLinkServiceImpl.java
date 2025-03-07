@@ -65,16 +65,19 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                 .append(shortLinkSuffix)
                 .toString();
         ShortLinkDO shortLinkDO = ShortLinkDO.builder()
-                .domain(requestParam.getDomain())
-                .shortUri(shortLinkSuffix)
-                .fullShortUrl(fullShortUrl)
                 .originUrl(requestParam.getOriginUrl())
                 .gid(requestParam.getGid())
-                .enableStatus(0)
                 .createdType(requestParam.getCreatedType())
-                .validDate(requestParam.getValidDate())
                 .validDateType(requestParam.getValidDateType())
+                .validDate(requestParam.getValidDate())
                 .describe(requestParam.getDescribe())
+                .shortUri(shortLinkSuffix)
+                .enableStatus(0)
+                .totalPv(0)
+                .totalUv(0)
+                .totalUip(0)
+                .delTime(0L)
+                .fullShortUrl(fullShortUrl)
                 .build();
         try{
             baseMapper.insert(shortLinkDO);
@@ -129,7 +132,9 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                     .eq(ShortLinkDO::getGid, hasShortLinkDO.getGid())
                     .eq(ShortLinkDO::getDelFlag, 0)
                     .eq(ShortLinkDO::getEnableStatus, 0);
-            ShortLinkDO delShortLinkDO=new ShortLinkDO();
+            ShortLinkDO delShortLinkDO = ShortLinkDO.builder()
+                    .delTime(System.currentTimeMillis())
+                    .build();
             delShortLinkDO.setDelFlag(1);
             baseMapper.update(delShortLinkDO, linkUpdateWrapper);
             ShortLinkDO shortLinkDO = ShortLinkDO.builder()
@@ -144,9 +149,6 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                     .fullShortUrl(hasShortLinkDO.getFullShortUrl())
                     .build();
             baseMapper.insert(shortLinkDO);
-
-
-
         }
 
 

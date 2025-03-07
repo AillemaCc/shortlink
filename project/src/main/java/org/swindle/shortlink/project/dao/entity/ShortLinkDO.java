@@ -53,17 +53,22 @@ public class ShortLinkDO extends BaseDO {
     private String gid;
 
     /**
-     * 启用标识 0：未启用 1：已启用
+     * 网站图标
+     */
+    private String favicon;
+
+    /**
+     * 启用标识 0：启用 1：未启用
      */
     private Integer enableStatus;
 
     /**
-     * 创建类型 0：控制台 1：接口
+     * 创建类型 0：接口创建 1：控制台创建
      */
     private Integer createdType;
 
     /**
-     * 有效期类型 0：永久有效 1：用户自定义
+     * 有效期类型 0：永久有效 1：自定义
      */
     private Integer validDateType;
 
@@ -77,9 +82,25 @@ public class ShortLinkDO extends BaseDO {
      */
     @TableField("`describe`")
     private String describe;
+
     /**
-     * 网站标识
+     * 历史pv
      */
-    private String favicon;
+    private Integer totalPv;
+
+    /**
+     * 历史uv
+     */
+    private Integer totalUv;
+
+    /**
+     * 历史uip
+     */
+    private Integer totalUip;
+    /**
+     * 删除时间戳
+     */
+    private Long delTime;
+
 
 }
