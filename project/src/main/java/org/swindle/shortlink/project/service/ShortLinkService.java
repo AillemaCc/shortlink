@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.swindle.shortlink.project.dao.entity.ShortLinkDO;
 import org.swindle.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import org.swindle.shortlink.project.dto.req.ShortLinkPageReqDTO;
+import org.swindle.shortlink.project.dto.req.ShortLinkUpdateReqDTO;
 import org.swindle.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
 import org.swindle.shortlink.project.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import org.swindle.shortlink.project.dto.resp.ShortLinkPageRespDTO;
@@ -22,6 +23,14 @@ public interface ShortLinkService extends IService<ShortLinkDO> {
      */
     ShortLinkCreateRespDTO createShortLink(ShortLinkCreateReqDTO requestParam);
 
+
+    /**
+     * 修改短链接
+     * @param requestParam 修改短链接请求参数
+     */
+    void updateShortLink(ShortLinkUpdateReqDTO requestParam);
+
+
     /**
      * 分页查询短链接
      * @param requestParam 分页查询短链接请求参数
@@ -35,4 +44,6 @@ public interface ShortLinkService extends IService<ShortLinkDO> {
      * @return
      */
     List<ShortLinkGroupCountQueryRespDTO> listGroupShortLinkCount(List<String> requestParam);
+
+
 }
