@@ -2,6 +2,8 @@ package org.swindle.shortlink.project.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import org.swindle.shortlink.project.dao.entity.ShortLinkDO;
 import org.swindle.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import org.swindle.shortlink.project.dto.req.ShortLinkPageReqDTO;
@@ -45,5 +47,11 @@ public interface ShortLinkService extends IService<ShortLinkDO> {
      */
     List<ShortLinkGroupCountQueryRespDTO> listGroupShortLinkCount(List<String> requestParam);
 
-
+    /**
+     * 短链接跳转长连接
+     * @param shortUri 短链接后缀
+     * @param request HTTP请求
+     * @param response HTTP响应
+     */
+    void restoreUrl(String shortUri, ServletRequest request, ServletResponse response);
 }
