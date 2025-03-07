@@ -1,4 +1,4 @@
-package org.swindle.shortlink.project.constant;
+package org.swindle.shortlink.project.common.constant;
 
 /**
  * redis常量
