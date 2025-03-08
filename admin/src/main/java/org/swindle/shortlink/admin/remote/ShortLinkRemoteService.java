@@ -4,6 +4,7 @@ import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.swindle.shortlink.admin.common.convention.result.Result;
 import org.swindle.shortlink.admin.dto.req.ShortLinkUpdateReqDTO;
 import org.swindle.shortlink.admin.remote.dto.req.ShortLinkCreateReqDTO;
@@ -66,4 +67,15 @@ public interface ShortLinkRemoteService {
     default void updateShortLink(ShortLinkUpdateReqDTO requestParam){
         HttpUtil.post("http://127.0.0.1:8001/api/shortlink/v1/update", JSON.toJSONString(requestParam));
     };
+    /**
+     * 根据 URL 获取标题
+     *
+     * @param url 目标网站地址
+     * @return 网站标题
+     */
+    default Result<String> getTitleByUrl(@RequestParam("url") String url){
+        String responseStr = HttpUtil.get("http://127.0.0.1:8001/api/shortlink/v1/title?url=" + url);
+        return JSON.parseObject(responseStr, new TypeReference<>() {
+        });
+    }
 }
