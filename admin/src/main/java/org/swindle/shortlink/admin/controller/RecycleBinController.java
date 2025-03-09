@@ -11,7 +11,6 @@ import org.swindle.shortlink.admin.common.convention.result.Results;
 import org.swindle.shortlink.admin.remote.ShortLinkRemoteService;
 import org.swindle.shortlink.admin.remote.dto.req.RecycleBinRecoverReqDTO;
 import org.swindle.shortlink.admin.remote.dto.req.RecycleBinSaveReqDTO;
-import org.swindle.shortlink.admin.remote.dto.req.ShortLinkPageReqDTO;
 import org.swindle.shortlink.admin.remote.dto.req.ShortLinkRecycleBinPageReqDTO;
 import org.swindle.shortlink.admin.remote.dto.resp.ShortLinkPageRespDTO;
 import org.swindle.shortlink.admin.service.RecycleBinService;
