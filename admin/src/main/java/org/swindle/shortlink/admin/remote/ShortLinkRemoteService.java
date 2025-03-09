@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.swindle.shortlink.admin.common.convention.result.Result;
 import org.swindle.shortlink.admin.dto.req.ShortLinkUpdateReqDTO;
-import org.swindle.shortlink.admin.remote.dto.req.RecycleBinSaveReqDTO;
-import org.swindle.shortlink.admin.remote.dto.req.ShortLinkCreateReqDTO;
-import org.swindle.shortlink.admin.remote.dto.req.ShortLinkPageReqDTO;
-import org.swindle.shortlink.admin.remote.dto.req.ShortLinkRecycleBinPageReqDTO;
+import org.swindle.shortlink.admin.remote.dto.req.*;
 import org.swindle.shortlink.admin.remote.dto.resp.ShortLinkCreateRespDTO;
 import org.swindle.shortlink.admin.remote.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import org.swindle.shortlink.admin.remote.dto.resp.ShortLinkPageRespDTO;
@@ -104,4 +101,12 @@ public interface ShortLinkRemoteService {
         return JSON.parseObject(requestPageStr, new TypeReference<>() {
         });
     }
+
+    /**
+     * 从回收站当中恢复短链接
+     */
+    default void recoverRecycleBin(RecycleBinRecoverReqDTO requestParam){
+        HttpUtil.post("http://127.0.0.1:8001/api/shortlink/v1/recycle-bin/recover", JSON.toJSONString(requestParam));
+    }
+
 }
