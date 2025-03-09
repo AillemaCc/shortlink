@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.swindle.shortlink.project.common.convention.result.Result;
 import org.swindle.shortlink.project.common.convention.result.Results;
-import org.swindle.shortlink.project.dto.req.RecycleBinRecoverReqDTO;
-import org.swindle.shortlink.project.dto.req.RecycleBinSaveReqDTO;
-import org.swindle.shortlink.project.dto.req.ShortLinkPageReqDTO;
-import org.swindle.shortlink.project.dto.req.ShortLinkRecycleBinPageReqDTO;
+import org.swindle.shortlink.project.dto.req.*;
 import org.swindle.shortlink.project.dto.resp.ShortLinkPageRespDTO;
 import org.swindle.shortlink.project.service.RecycleBinService;
 
@@ -47,6 +44,15 @@ public class RecycleBinController {
     @PostMapping("/api/shortlink/v1/recycle-bin/recover")
     public Result<Void> recoverRecycleBin(@RequestBody RecycleBinRecoverReqDTO requestParam) {
         recycleBinService.recoverRecycleBin(requestParam);
+        return Results.success();
+    }
+
+    /**
+     * 移除短链接
+     */
+    @PostMapping("/api/shortlink/v1/recycle-bin/remove")
+    public Result<Void> removeRecycleBin(@RequestBody RecycleBinRemoveReqDTO requestParam) {
+        recycleBinService.removeRecycleBin(requestParam);
         return Results.success();
     }
 

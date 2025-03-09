@@ -3,10 +3,7 @@ package org.swindle.shortlink.project.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.swindle.shortlink.project.dao.entity.ShortLinkDO;
-import org.swindle.shortlink.project.dto.req.RecycleBinRecoverReqDTO;
-import org.swindle.shortlink.project.dto.req.RecycleBinSaveReqDTO;
-import org.swindle.shortlink.project.dto.req.ShortLinkPageReqDTO;
-import org.swindle.shortlink.project.dto.req.ShortLinkRecycleBinPageReqDTO;
+import org.swindle.shortlink.project.dto.req.*;
 import org.swindle.shortlink.project.dto.resp.ShortLinkPageRespDTO;
 
 /**
@@ -32,4 +29,10 @@ public interface RecycleBinService extends IService<ShortLinkDO> {
      * @param requestParam
      */
     void recoverRecycleBin(RecycleBinRecoverReqDTO requestParam);
+
+    /**
+     * 从回收站删除短链接
+     * @param requestParam
+     */
+    void removeRecycleBin(RecycleBinRemoveReqDTO requestParam);
 }

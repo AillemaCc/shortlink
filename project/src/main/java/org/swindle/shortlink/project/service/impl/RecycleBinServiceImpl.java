@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.swindle.shortlink.project.dao.entity.ShortLinkDO;
 import org.swindle.shortlink.project.dao.mapper.ShortLinkMapper;
 import org.swindle.shortlink.project.dto.req.RecycleBinRecoverReqDTO;
+import org.swindle.shortlink.project.dto.req.RecycleBinRemoveReqDTO;
 import org.swindle.shortlink.project.dto.req.RecycleBinSaveReqDTO;
 import org.swindle.shortlink.project.dto.req.ShortLinkRecycleBinPageReqDTO;
 import org.swindle.shortlink.project.dto.resp.ShortLinkPageRespDTO;
@@ -71,6 +72,21 @@ public class RecycleBinServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLin
         baseMapper.update(shortLinkDO, updateWrapper);
         stringRedisTemplate.delete(String.format(GOTO_IS_NULL_SHORT_LINK_KEY, requestParam.getFullShortUrl()));
 
+    }
+
+    @Override
+    public void removeRecycleBin(RecycleBinRemoveReqDTO requestParam) {
+        LambdaUpdateWrapper<ShortLinkDO> updateWrapper = Wrappers.lambdaUpdate(ShortLinkDO.class)
+                .eq(ShortLinkDO::getGid, requestParam.getGid())
+                .eq(ShortLinkDO::getFullShortUrl, requestParam.getFullShortUrl())
+                .eq(ShortLinkDO::getEnableStatus, 1)
+                .eq(ShortLinkDO::getDelTime, 0L)
+                .eq(ShortLinkDO::getDelFlag, 0);
+        ShortLinkDO delShortLinkDO = ShortLinkDO.builder()
+                .delTime(System.currentTimeMillis())
+                .build();
+        delShortLinkDO.setDelFlag(1);
+        baseMapper.update(delShortLinkDO, updateWrapper);
     }
 
 
