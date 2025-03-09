@@ -5,6 +5,9 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.swindle.shortlink.project.dao.entity.LinkAccessStatsDO;
 
+/**
+ * 短链接访问持久层
+ */
 public interface LinkAccessStatsMapper extends BaseMapper<LinkAccessStatsDO> {
     /**
      * 记录基础访问监控数据

@@ -13,3 +13,9 @@ spring:
     view:
       prefix: /templates/
       suffix: .html
+short-link:
+  stats:
+    locale:
+      amap-key: 14182c72b602937a5cf02a374bf8d5cd
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
