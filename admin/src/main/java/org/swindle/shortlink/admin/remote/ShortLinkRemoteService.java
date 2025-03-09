@@ -11,6 +11,7 @@ import org.swindle.shortlink.admin.dto.req.ShortLinkUpdateReqDTO;
 import org.swindle.shortlink.admin.remote.dto.req.RecycleBinSaveReqDTO;
 import org.swindle.shortlink.admin.remote.dto.req.ShortLinkCreateReqDTO;
 import org.swindle.shortlink.admin.remote.dto.req.ShortLinkPageReqDTO;
+import org.swindle.shortlink.admin.remote.dto.req.ShortLinkRecycleBinPageReqDTO;
 import org.swindle.shortlink.admin.remote.dto.resp.ShortLinkCreateRespDTO;
 import org.swindle.shortlink.admin.remote.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import org.swindle.shortlink.admin.remote.dto.resp.ShortLinkPageRespDTO;
@@ -88,4 +89,19 @@ public interface ShortLinkRemoteService {
     default void saveRecycleBin(RecycleBinSaveReqDTO requestParam){
         HttpUtil.post("http://127.0.0.1:8001/api/shortlink/v1/recycle-bin/save", JSON.toJSONString(requestParam));
     };
+
+    /**
+     * 分页查询回收站短链接
+     * @param requestParam
+     * @return
+     */
+    default Result<IPage<ShortLinkPageRespDTO>> pageRecycleBinShortLink(ShortLinkRecycleBinPageReqDTO requestParam){
+        Map<String,Object> reqMap = new HashMap<String,Object>();
+        reqMap.put("gidList", requestParam.getGidList());
+        reqMap.put("current", requestParam.getCurrent());
+        reqMap.put("size", requestParam.getSize());
+        String requestPageStr = HttpUtil.get("http://127.0.0.1:8001/api/shortlink/recycle-bin/page", reqMap);
+        return JSON.parseObject(requestPageStr, new TypeReference<>() {
+        });
+    }
 }
