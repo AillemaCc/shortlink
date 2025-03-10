@@ -252,6 +252,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
         String fullShortUrl=serverName +  "/" + shortUri;
         String originalLink = stringRedisTemplate.opsForValue().get(String.format(GOTO_SHORT_LINK_KEY, fullShortUrl));
         if(StrUtil.isNotBlank(originalLink)){
+            //TODO 获取gid
             shortLinkStats(fullShortUrl,null,request,response);
             ((HttpServletResponse) response).sendRedirect(originalLink);
             return;

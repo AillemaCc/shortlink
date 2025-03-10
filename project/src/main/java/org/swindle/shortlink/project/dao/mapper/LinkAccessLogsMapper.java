@@ -26,9 +26,9 @@ public interface LinkAccessLogsMapper extends BaseMapper<LinkAccessLogsDO> {
             "    COUNT(tlal.ip) AS count " +
             "FROM " +
             "    t_link tl INNER JOIN " +
-            "    t_link_access_logs tlal ON tl.full_short_url = tlal.full_short_url " +
+            "    t_link_access_logs tlal ON tl.full_short_url = tlal.full_short_url COLLATE utf8mb4_general_ci " +  // 确保JOIN条件使用相同排序规则
             "WHERE " +
-            "    tlal.full_short_url = #{param.fullShortUrl} " +
+            "    tlal.full_short_url = #{param.fullShortUrl} COLLATE utf8mb4_general_ci " +  // 在这里应用相同的排序规则
             "    AND tl.gid = #{param.gid} " +
             "    AND tl.del_flag = '0' " +
             "    AND tl.enable_status = #{param.enableStatus} " +
@@ -73,9 +73,9 @@ public interface LinkAccessLogsMapper extends BaseMapper<LinkAccessLogsDO> {
             "        CASE WHEN COUNT(DISTINCT DATE(tlal.create_time)) = 1 AND MAX(tlal.create_time) >= #{param.startDate} AND MAX(tlal.create_time) <= #{param.endDate} THEN 1 ELSE 0 END AS new_user " +
             "    FROM " +
             "        t_link tl INNER JOIN " +
-            "        t_link_access_logs tlal ON tl.full_short_url = tlal.full_short_url " +
+            "        t_link_access_logs tlal ON tl.full_short_url = tlal.full_short_url COLLATE utf8mb4_general_ci " +  // 确保JOIN条件使用相同排序规则
             "    WHERE " +
-            "        tlal.full_short_url = #{param.fullShortUrl} " +
+            "        tlal.full_short_url = #{param.fullShortUrl} COLLATE utf8mb4_general_ci " +  // 在这里应用相同的排序规则
             "        AND tl.gid = #{param.gid} " +
             "        AND tl.enable_status = #{param.enableStatus} " +
             "        AND tl.del_flag = '0' " +

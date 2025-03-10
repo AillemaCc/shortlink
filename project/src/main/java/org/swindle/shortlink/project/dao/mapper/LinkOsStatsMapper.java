@@ -33,9 +33,9 @@ public interface LinkOsStatsMapper extends BaseMapper<LinkOsStatsDO> {
             "    SUM(tlos.cnt) AS count " +
             "FROM " +
             "    t_link tl INNER JOIN " +
-            "    t_link_os_stats tlos ON tl.full_short_url = tlos.full_short_url " +
+            "    t_link_os_stats tlos ON tl.full_short_url = tlos.full_short_url COLLATE utf8mb4_general_ci " +  // 确保JOIN条件使用相同排序规则
             "WHERE " +
-            "    tlos.full_short_url = #{param.fullShortUrl} " +
+            "    tlos.full_short_url = #{param.fullShortUrl} COLLATE utf8mb4_general_ci " +  // 在这里应用相同的排序规则
             "    AND tl.gid = #{param.gid} " +
             "    AND tl.del_flag = '0' " +
             "    AND tl.enable_status = #{param.enableStatus} " +
