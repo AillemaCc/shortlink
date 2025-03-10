@@ -65,8 +65,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static org.swindle.shortlink.project.common.constant.RedisKeyConstant.*;
 import static org.swindle.shortlink.project.common.constant.ShortLinkConstant.AMAP_REMOTE_URL;
-import static org.swindle.shortlink.project.toolkit.LinkUtil.getBrowser;
-import static org.swindle.shortlink.project.toolkit.LinkUtil.getOs;
+import static org.swindle.shortlink.project.toolkit.LinkUtil.*;
 
 
 /**
@@ -85,6 +84,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
     private final LinkOsStatsMapper linkOsStatsMapper;
     private final LinkBrowserStatsMapper linkBrowserStatsMapper;
     private final LinkAccessLogsMapper linkAccessLogsMapper;
+    private final LinkDeviceStatsMapper linkDeviceStatsMapper;
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
@@ -411,6 +411,15 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                         .fullShortUrl(fullShortURL)
                         .build();
                 linkAccessLogsMapper.insert(linkAccessLogsDO);
+
+                LinkDeviceStatsDO linkDeviceStatsDO=LinkDeviceStatsDO.builder()
+                        .device(getDevice(((HttpServletRequest) request)))
+                        .cnt(1)
+                        .gid(gid)
+                        .fullShortUrl(fullShortURL)
+                        .date(new Date())
+                        .build();
+                linkDeviceStatsMapper.shortLinkDeviceState(linkDeviceStatsDO);
             }
         }catch (Throwable e){
             log.error("短链接访问异常",e);
