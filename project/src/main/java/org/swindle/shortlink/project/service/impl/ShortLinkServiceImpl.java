@@ -64,6 +64,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.swindle.shortlink.project.common.constant.RedisKeyConstant.*;
 import static org.swindle.shortlink.project.common.constant.ShortLinkConstant.AMAP_REMOTE_URL;
+import static org.swindle.shortlink.project.toolkit.LinkUtil.getBrowser;
 import static org.swindle.shortlink.project.toolkit.LinkUtil.getOs;
 
 
@@ -81,6 +82,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
     private final LinkAccessStatsMapper linkAccessStatsMapper;
     private final LinkLocaleStatsMapper linkLocaleStatsMapper;
     private final LinkOsStatsMapper linkOsStatsMapper;
+    private final LinkBrowserStatsMapper linkBrowserStatsMapper;
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
@@ -377,6 +379,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                         .date(new Date())
                         .build();
                 linkLocaleStatsMapper.shortLinkLocaleState(linkLocaleStatsDO);
+
                 LinkOsStatsDO linkOsStatsDO=LinkOsStatsDO.builder()
                         .os(getOs(((HttpServletRequest) request)))
                         .cnt(1)
@@ -385,6 +388,15 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                         .date(new Date())
                         .build();
                 linkOsStatsMapper.shortLinkOsState(linkOsStatsDO);
+
+                LinkBrowserStatsDO linkBrowserStatsDO=LinkBrowserStatsDO.builder()
+                        .browser(getBrowser(((HttpServletRequest) request)))
+                        .cnt(1)
+                        .gid(gid)
+                        .fullShortUrl(fullShortURL)
+                        .date(new Date())
+                        .build();
+                linkBrowserStatsMapper.shortLinkBrowserState(linkBrowserStatsDO);
             }
         }catch (Throwable e){
             log.error("短链接访问异常",e);
