@@ -26,9 +26,9 @@ public interface LinkAccessLogsMapper extends BaseMapper<LinkAccessLogsDO> {
             "    COUNT(tlal.ip) AS count " +
             "FROM " +
             "    t_link tl INNER JOIN " +
-            "    t_link_access_logs tlal ON tl.full_short_url = tlal.full_short_url COLLATE utf8mb4_general_ci " +  // 确保JOIN条件使用相同排序规则
+            "    t_link_access_logs tlal ON tl.full_short_url = tlal.full_short_url " +
             "WHERE " +
-            "    tlal.full_short_url = #{param.fullShortUrl} COLLATE utf8mb4_general_ci " +  // 在这里应用相同的排序规则
+            "    tlal.full_short_url = #{param.fullShortUrl} " +
             "    AND tl.gid = #{param.gid} " +
             "    AND tl.del_flag = '0' " +
             "    AND tl.enable_status = #{param.enableStatus} " +
@@ -73,9 +73,9 @@ public interface LinkAccessLogsMapper extends BaseMapper<LinkAccessLogsDO> {
             "        CASE WHEN COUNT(DISTINCT DATE(tlal.create_time)) = 1 AND MAX(tlal.create_time) >= #{param.startDate} AND MAX(tlal.create_time) <= #{param.endDate} THEN 1 ELSE 0 END AS new_user " +
             "    FROM " +
             "        t_link tl INNER JOIN " +
-            "        t_link_access_logs tlal ON tl.full_short_url = tlal.full_short_url COLLATE utf8mb4_general_ci " +  // 确保JOIN条件使用相同排序规则
+            "        t_link_access_logs tlal ON tl.full_short_url = tlal.full_short_url " +
             "    WHERE " +
-            "        tlal.full_short_url = #{param.fullShortUrl} COLLATE utf8mb4_general_ci " +  // 在这里应用相同的排序规则
+            "        tlal.full_short_url = #{param.fullShortUrl} " +
             "        AND tl.gid = #{param.gid} " +
             "        AND tl.enable_status = #{param.enableStatus} " +
             "        AND tl.del_flag = '0' " +
@@ -89,30 +89,27 @@ public interface LinkAccessLogsMapper extends BaseMapper<LinkAccessLogsDO> {
      */
     @Select("<script> " +
             "SELECT " +
-            "    tlal.user, " +
+            "    user, " +
             "    CASE " +
-            "        WHEN MIN(tlal.create_time) BETWEEN #{startDate} AND #{endDate} THEN '新访客' " +
+            "        WHEN MIN(create_time) BETWEEN #{startDate} AND #{endDate} THEN '新访客' " +
             "        ELSE '老访客' " +
             "    END AS uvType " +
             "FROM " +
-            "    t_link tl INNER JOIN " +
-            "    t_link_access_logs tlal ON tl.full_short_url = tlal.full_short_url " +
+            "    t_link_access_logs " +
             "WHERE " +
-            "    tlal.full_short_url = #{fullShortUrl} " +
-            "    AND tl.gid = #{gid} " +
-            "    AND tl.del_flag = '0' " +
-            "    AND tl.enable_status = #{enableStatus} " +
-            "    AND tlal.user IN " +
+            "    full_short_url = #{fullShortUrl} " +
+            "    AND gid = #{gid} " +
+            "    AND user IN " +
             "    <foreach item='item' index='index' collection='userAccessLogsList' open='(' separator=',' close=')'> " +
             "        #{item} " +
             "    </foreach> " +
             "GROUP BY " +
-            "    tlal.user;" +
-            "</script>")
+            "    user;" +
+            "    </script>"
+    )
     List<Map<String, Object>> selectUvTypeByUsers(
             @Param("gid") String gid,
             @Param("fullShortUrl") String fullShortUrl,
-            @Param("enableStatus") Integer enableStatus,
             @Param("startDate") String startDate,
             @Param("endDate") String endDate,
             @Param("userAccessLogsList") List<String> userAccessLogsList
@@ -121,7 +118,7 @@ public interface LinkAccessLogsMapper extends BaseMapper<LinkAccessLogsDO> {
     /**
      * 获取分组用户信息是否新老访客
      */
-    @Select("<script> " +
+    @Select(" <script> " +
             "SELECT " +
             "    tlal.user, " +
             "    CASE " +

@@ -5,15 +5,14 @@ import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.swindle.shortlink.admin.common.convention.result.Result;
+import org.swindle.shortlink.admin.common.convention.result.Results;
 import org.swindle.shortlink.admin.dto.req.ShortLinkUpdateReqDTO;
 import org.swindle.shortlink.admin.remote.dto.req.*;
-import org.swindle.shortlink.admin.remote.dto.resp.ShortLinkCreateRespDTO;
-import org.swindle.shortlink.admin.remote.dto.resp.ShortLinkGroupCountQueryRespDTO;
-import org.swindle.shortlink.admin.remote.dto.resp.ShortLinkPageRespDTO;
-import org.swindle.shortlink.admin.remote.dto.resp.ShortLinkStatsRespDTO;
+import org.swindle.shortlink.admin.remote.dto.resp.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -131,4 +130,17 @@ public interface ShortLinkRemoteService {
         });
     }
 
+    /**
+     * 访问单个短链接指定时间内监控访问记录数据
+     * @param requestParam
+     * @return
+     */
+    default Result<IPage<ShortLinkStatsAccessRecordRespDTO>> shortLinkStatsAccessRecord(ShortLinkStatsAccessRecordReqDTO requestParam){
+        Map<String, Object> stringObjectMap = BeanUtil.beanToMap(requestParam, false, true);
+        stringObjectMap.remove("orders");
+        stringObjectMap.remove("records");
+        String resultBodyStr = HttpUtil.get("http://127.0.0.1:8001/api/shortlink/v1/stats/access-record", stringObjectMap);
+        return JSON.parseObject(resultBodyStr, new TypeReference<>() {
+        });
+    }
 }
