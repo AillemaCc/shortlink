@@ -404,16 +404,6 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                         .build();
                 linkBrowserStatsMapper.shortLinkBrowserState(linkBrowserStatsDO);
 
-                LinkAccessLogsDO linkAccessLogsDO=LinkAccessLogsDO.builder()
-                        .ip(remoteAddr)
-                        .browser(getBrowser(((HttpServletRequest) request)))
-                        .os(getOs(((HttpServletRequest) request)))
-                        .user(uv.get())
-                        .gid(gid)
-                        .fullShortUrl(fullShortURL)
-                        .build();
-                linkAccessLogsMapper.insert(linkAccessLogsDO);
-
                 LinkDeviceStatsDO linkDeviceStatsDO=LinkDeviceStatsDO.builder()
                         .device(getDevice(((HttpServletRequest) request)))
                         .cnt(1)
@@ -431,6 +421,19 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                         .date(new Date())
                         .build();
                 linkNetworkStatsMapper.shortLinkNetworkState(linkNetworkStatsDO);
+
+                LinkAccessLogsDO linkAccessLogsDO=LinkAccessLogsDO.builder()
+                        .ip(remoteAddr)
+                        .browser(getBrowser(((HttpServletRequest) request)))
+                        .os(getOs(((HttpServletRequest) request)))
+                        .user(uv.get())
+                        .network(getNetwork(((HttpServletRequest) request)))
+                        .device(getDevice(((HttpServletRequest) request)))
+                        .locale(unknownFlag?"未知":province)
+                        .gid(gid)
+                        .fullShortUrl(fullShortURL)
+                        .build();
+                linkAccessLogsMapper.insert(linkAccessLogsDO);
             }
         }catch (Throwable e){
             log.error("短链接访问异常",e);
