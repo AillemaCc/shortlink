@@ -43,14 +43,8 @@ import org.swindle.shortlink.project.common.convention.exception.ClientException
 import org.swindle.shortlink.project.common.convention.exception.ServiceException;
 import org.swindle.shortlink.project.common.enums.VailDateTypeEnum;
 
-import org.swindle.shortlink.project.dao.entity.LinkAccessStatsDO;
-import org.swindle.shortlink.project.dao.entity.LinkLocaleStatsDO;
-import org.swindle.shortlink.project.dao.entity.ShortLinkDO;
-import org.swindle.shortlink.project.dao.entity.ShortLinkGotoDO;
-import org.swindle.shortlink.project.dao.mapper.LinkAccessStatsMapper;
-import org.swindle.shortlink.project.dao.mapper.LinkLocaleStatsMapper;
-import org.swindle.shortlink.project.dao.mapper.ShortLinkGotoMapper;
-import org.swindle.shortlink.project.dao.mapper.ShortLinkMapper;
+import org.swindle.shortlink.project.dao.entity.*;
+import org.swindle.shortlink.project.dao.mapper.*;
 import org.swindle.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import org.swindle.shortlink.project.dto.req.ShortLinkPageReqDTO;
 import org.swindle.shortlink.project.dto.req.ShortLinkUpdateReqDTO;
@@ -70,6 +64,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.swindle.shortlink.project.common.constant.RedisKeyConstant.*;
 import static org.swindle.shortlink.project.common.constant.ShortLinkConstant.AMAP_REMOTE_URL;
+import static org.swindle.shortlink.project.toolkit.LinkUtil.getOs;
 
 
 /**
@@ -85,6 +80,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
     private final ShortLinkMapper shortLinkMapper;
     private final LinkAccessStatsMapper linkAccessStatsMapper;
     private final LinkLocaleStatsMapper linkLocaleStatsMapper;
+    private final LinkOsStatsMapper linkOsStatsMapper;
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
@@ -381,6 +377,14 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                         .date(new Date())
                         .build();
                 linkLocaleStatsMapper.shortLinkLocaleState(linkLocaleStatsDO);
+                LinkOsStatsDO linkOsStatsDO=LinkOsStatsDO.builder()
+                        .os(getOs(((HttpServletRequest) request)))
+                        .cnt(1)
+                        .gid(gid)
+                        .fullShortUrl(fullShortURL)
+                        .date(new Date())
+                        .build();
+                linkOsStatsMapper.shortLinkOsState(linkOsStatsDO);
             }
         }catch (Throwable e){
             log.error("短链接访问异常",e);
