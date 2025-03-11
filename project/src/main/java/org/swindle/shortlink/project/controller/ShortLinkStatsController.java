@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.swindle.shortlink.project.common.convention.result.Result;
 import org.swindle.shortlink.project.common.convention.result.Results;
+import org.swindle.shortlink.project.dto.req.ShortLinkGroupStatsAccessRecordReqDTO;
 import org.swindle.shortlink.project.dto.req.ShortLinkGroupStatsReqDTO;
 import org.swindle.shortlink.project.dto.req.ShortLinkStatsAccessRecordReqDTO;
 import org.swindle.shortlink.project.dto.req.ShortLinkStatsReqDTO;
@@ -48,5 +49,13 @@ public class ShortLinkStatsController {
         return Results.success(shortLinkStatsService.groupShortLinkStats(requestParam));
     }
 
+
+    /**
+     * 访问分组短链接指定时间内访问记录监控数据
+     */
+    @GetMapping("/api/shortlink/v1/stats/access-record/group")
+    public Result<IPage<ShortLinkStatsAccessRecordRespDTO>> groupShortLinkStatsAccessRecord(ShortLinkGroupStatsAccessRecordReqDTO requestParam) {
+        return Results.success(shortLinkStatsService.groupShortLinkStatsAccessRecord(requestParam));
+    }
 
 }
