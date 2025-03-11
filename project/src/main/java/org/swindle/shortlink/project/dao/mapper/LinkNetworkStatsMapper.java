@@ -51,7 +51,7 @@ public interface LinkNetworkStatsMapper extends BaseMapper<LinkNetworkStatsDO> {
             "    SUM(tlns.cnt) AS cnt " +
             "FROM " +
             "    t_link tl INNER JOIN " +
-            "    t_link_network_stats tlns ON tl.full_short_url = tlns.full_short_url " +
+            "    t_link_network_stats tlns ON tl.full_short_url = tlns.full_short_url COLLATE utf8mb4_general_ci " +
             "WHERE " +
             "    tl.gid = #{param.gid} " +
             "    AND tl.del_flag = '0' " +

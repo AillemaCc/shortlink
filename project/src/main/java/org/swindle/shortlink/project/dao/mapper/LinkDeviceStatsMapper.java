@@ -51,7 +51,7 @@ public interface LinkDeviceStatsMapper extends BaseMapper<LinkDeviceStatsDO> {
             "    SUM(tlds.cnt) AS cnt " +
             "FROM " +
             "    t_link tl INNER JOIN " +
-            "    t_link_device_stats tlds ON tl.full_short_url = tlds.full_short_url " +
+            "    t_link_device_stats tlds ON tl.full_short_url = tlds.full_short_url COLLATE utf8mb4_general_ci " +
             "WHERE " +
             "    tl.gid = #{param.gid} " +
             "    AND tl.del_flag = '0' " +

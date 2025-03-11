@@ -163,7 +163,7 @@ public interface LinkAccessLogsMapper extends BaseMapper<LinkAccessLogsDO> {
             "    AND tl.gid = #{param.gid} " +
             "    AND tl.del_flag = '0' " +
             "    AND tl.enable_status = '0' " +
-            "    AND tlal.create_time BETWEEN #{param.startDate} AND #{param.endDate} " +
+            "    AND tlal.create_time BETWEEN CONCAT(#{param.startDate},' 00:00:00') and CONCAT(#{param.endDate},' 23:59:59') " +
             "GROUP BY " +
             "    tlal.full_short_url, " +
             "    tl.gid;")
@@ -186,7 +186,7 @@ public interface LinkAccessLogsMapper extends BaseMapper<LinkAccessLogsDO> {
             "    AND tlal.create_time BETWEEN #{param.startDate} AND #{param.endDate} " +
             "GROUP BY " +
             "    tl.gid;")
-    LinkAccessStatsDO findPvUvUidStatsByGroup(@Param("param") ShortLinkStatsReqDTO requestParam);
+    LinkAccessStatsDO findPvUvUidStatsByGroup(@Param("param") ShortLinkGroupStatsReqDTO requestParam);
 
 //    @Select("SELECT " +
 //            "    tlal.* " +

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.swindle.shortlink.admin.common.convention.result.Result;
 import org.swindle.shortlink.admin.common.convention.result.Results;
 import org.swindle.shortlink.admin.remote.ShortLinkRemoteService;
+import org.swindle.shortlink.admin.remote.dto.req.ShortLinkGroupStatsReqDTO;
 import org.swindle.shortlink.admin.remote.dto.req.ShortLinkStatsAccessRecordReqDTO;
 import org.swindle.shortlink.admin.remote.dto.req.ShortLinkStatsReqDTO;
 import org.swindle.shortlink.admin.remote.dto.resp.ShortLinkStatsAccessRecordRespDTO;
@@ -41,4 +42,15 @@ public class ShortLinkStatsController {
     public Result<IPage<ShortLinkStatsAccessRecordRespDTO>> shortLinkStatsAccessRecord(@RequestBody ShortLinkStatsAccessRecordReqDTO requestParam) {
         return shortLinkRemoteService.shortLinkStatsAccessRecord(requestParam);
     }
+
+    /**
+     * 访问分组短链接指定时间内监控数据
+     */
+    @GetMapping("/api/shortlink/admin/v1/stats/group")
+    public Result<ShortLinkStatsRespDTO> groupShortLinkStats(ShortLinkGroupStatsReqDTO requestParam) {
+        return shortLinkRemoteService.groupShortLinkStats(requestParam);
+    }
+
+
+
 }

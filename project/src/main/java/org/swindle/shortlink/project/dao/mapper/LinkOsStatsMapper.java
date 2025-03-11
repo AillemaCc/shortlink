@@ -52,7 +52,7 @@ public interface LinkOsStatsMapper extends BaseMapper<LinkOsStatsDO> {
             "    SUM(tlos.cnt) AS count " +
             "FROM " +
             "    t_link tl INNER JOIN " +
-            "    t_link_os_stats tlos ON tl.full_short_url = tlos.full_short_url " +
+            "    t_link_os_stats tlos ON tl.full_short_url = tlos.full_short_url COLLATE utf8mb4_general_ci " +
             "WHERE " +
             "    tl.gid = #{param.gid} " +
             "    AND tl.del_flag = '0' " +

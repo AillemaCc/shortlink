@@ -49,7 +49,7 @@ public interface LinkBrowserStatsMapper extends BaseMapper<LinkBrowserStatsDO> {
             "    SUM(tlbs.cnt) AS count " +
             "FROM " +
             "    t_link tl INNER JOIN " +
-            "    t_link_browser_stats tlbs ON tl.full_short_url = tlbs.full_short_url " +
+            "    t_link_browser_stats tlbs ON tl.full_short_url = tlbs.full_short_url COLLATE utf8mb4_general_ci " +
             "WHERE " +
             "    tl.gid = #{param.gid} " +
             "    AND tl.del_flag = '0' " +
