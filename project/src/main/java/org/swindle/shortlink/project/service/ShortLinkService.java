@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import org.swindle.shortlink.project.dao.entity.ShortLinkDO;
+import org.swindle.shortlink.project.dto.req.ShortLinkBatchCreateReqDTO;
 import org.swindle.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import org.swindle.shortlink.project.dto.req.ShortLinkPageReqDTO;
 import org.swindle.shortlink.project.dto.req.ShortLinkUpdateReqDTO;
+import org.swindle.shortlink.project.dto.resp.ShortLinkBatchCreateRespDTO;
 import org.swindle.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
 import org.swindle.shortlink.project.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import org.swindle.shortlink.project.dto.resp.ShortLinkPageRespDTO;
@@ -54,4 +56,12 @@ public interface ShortLinkService extends IService<ShortLinkDO> {
      * @param response HTTP响应
      */
     void restoreUrl(String shortUri, ServletRequest request, ServletResponse response);
+
+    /**
+     * 批量创建短链接
+     *
+     * @param requestParam 批量创建短链接请求参数
+     * @return 批量创建短链接返回参数
+     */
+    ShortLinkBatchCreateRespDTO batchCreateShortLink(ShortLinkBatchCreateReqDTO requestParam);
 }

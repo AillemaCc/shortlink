@@ -7,9 +7,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.swindle.shortlink.project.common.convention.result.Result;
 import org.swindle.shortlink.project.common.convention.result.Results;
+import org.swindle.shortlink.project.dto.req.ShortLinkBatchCreateReqDTO;
 import org.swindle.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import org.swindle.shortlink.project.dto.req.ShortLinkPageReqDTO;
 import org.swindle.shortlink.project.dto.req.ShortLinkUpdateReqDTO;
+import org.swindle.shortlink.project.dto.resp.ShortLinkBatchCreateRespDTO;
 import org.swindle.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
 import org.swindle.shortlink.project.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import org.swindle.shortlink.project.dto.resp.ShortLinkPageRespDTO;
@@ -71,6 +73,14 @@ public class ShortLinkController {
     @GetMapping("/api/shortlink/v1/count")
     public Result<List<ShortLinkGroupCountQueryRespDTO>> listGroupShortLinkCount(@RequestParam List<String> requestParam){
         return Results.success(shortLinkService.listGroupShortLinkCount(requestParam));
+    }
+
+    /**
+     * 批量创建短链接
+     */
+    @PostMapping("/api/shortlink/v1/create/batch")
+    public Result<ShortLinkBatchCreateRespDTO> batchCreateShortLink(@RequestBody ShortLinkBatchCreateReqDTO requestParam) {
+        return Results.success(shortLinkService.batchCreateShortLink(requestParam));
     }
 
 
