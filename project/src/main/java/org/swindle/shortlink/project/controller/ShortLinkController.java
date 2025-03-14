@@ -1,5 +1,6 @@
 package org.swindle.shortlink.project.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
@@ -15,6 +16,7 @@ import org.swindle.shortlink.project.dto.resp.ShortLinkBatchCreateRespDTO;
 import org.swindle.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
 import org.swindle.shortlink.project.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import org.swindle.shortlink.project.dto.resp.ShortLinkPageRespDTO;
+import org.swindle.shortlink.project.handler.CustomBlockHandler;
 import org.swindle.shortlink.project.service.ShortLinkService;
 
 import java.util.List;
@@ -42,6 +44,11 @@ public class ShortLinkController {
      * @return
      */
     @PostMapping("/api/shortlink/v1/create")
+    @SentinelResource(
+            value = "create_short-link",
+            blockHandler = "createShortLinkBlockHandlerMethod",
+            blockHandlerClass = CustomBlockHandler.class
+    )
     public Result<ShortLinkCreateRespDTO> createShortLink(@RequestBody ShortLinkCreateReqDTO requestParam){
         return Results.success(shortLinkService.createShortLink(requestParam));
     }
