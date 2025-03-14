@@ -1,4 +1,4 @@
-package org.swindle.shortlink.project.mq.consumer;
+package org.swindle.shortlink.project.mq.producer;
 
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RBlockingDeque;
